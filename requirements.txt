@@ -1,0 +1,8 @@
+numpy
+pandas
+matplotlib
+
+# Optional, only needed for the interactive dashboards:
+streamlit    # for `streamlit run app.py`
+plotly       # for `python build_dashboard.py`
+markdown     # optional, nicer rendering of the engineering conclusions in build_dashboard.py
