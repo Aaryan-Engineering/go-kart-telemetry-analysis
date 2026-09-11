@@ -2,15 +2,15 @@
 
 Turns raw Alfano6 go-kart lap-logger CSVs into cleaned per-lap data, an
 automatically-detected corner map, per-corner metrics, consistency/loss
-analysis, auto-generated improvement recommendations, and three ways to
-view it all: static PNG plots, a Streamlit dashboard, and a single
-self-contained HTML dashboard.
+analysis, auto-generated improvement recommendations, and three ways to view
+it all: static PNG plots, a Streamlit dashboard, and a single self-contained
+HTML dashboard.
 
 ## What's here
 
 ```
 data/
-  raw/            <- put your lap*.csv + summary.csv here (not committed)
+  raw_sample/     <- sample lap*.csv + summary.csv, included so you can try the pipeline immediately
   processed/      <- cleaned CSVs, written by the pipeline
 outputs/          <- PNGs, markdown reports, dashboard.html
 src/
@@ -19,10 +19,11 @@ src/
   spins.py        <- spin detection (yaw-rate vs measured grip)
   corners.py      <- automatic corner detection + per-lap corner metrics
   analysis.py     <- consistency, time-loss, recommendation engine, lap exclusion logic
-  plots.py        <- matplotlib plots (used by main.py and app.py)
+  plots.py        <- matplotlib plots (used by main.py and dashboard/app.py)
   main.py         <- runs the full pipeline, writes everything to outputs/
-app.py            <- Streamlit dashboard (`streamlit run app.py`)
-build_dashboard.py<- builds a single offline outputs/dashboard.html (Plotly)
+dashboard/
+  app.py               <- Streamlit dashboard (`streamlit run dashboard/app.py`)
+  build_dashboard.py   <- builds a single offline outputs/dashboard.html (Plotly)
 requirements.txt
 ```
 
@@ -34,8 +35,10 @@ source .venv/bin/activate        # Windows: .venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
-Drop your session's `lap1.csv`, `lap2.csv`, ... and `summary.csv` into
-`data/raw/`.
+Sample data is already included in `data/raw_sample/`, so you can run the
+pipeline right away. To use your own session, drop your `lap1.csv`,
+`lap2.csv`, ... and `summary.csv` into that same folder (replacing or
+alongside the sample files).
 
 ## Run it
 
@@ -43,12 +46,16 @@ Drop your session's `lap1.csv`, `lap2.csv`, ... and `summary.csv` into
 # Full pipeline: cleaned data + every static plot + markdown reports
 python src/main.py
 
-# Interactive dashboard (needs streamlit)
-streamlit run app.py
+# Interactive dashboard (needs streamlit) — run from the project root
+streamlit run dashboard/app.py
 
 # Single offline HTML file, shareable with no install needed to view it
-python build_dashboard.py
+python dashboard/build_dashboard.py
 ```
+
+All three entry points locate `data/`, `src/`, and `outputs/` relative to
+their own file location, not your current directory, so they work whether
+you run them from the project root or from inside `dashboard/`.
 
 ## Out-laps and spins are excluded from corner comparisons
 
@@ -61,9 +68,9 @@ you don't lose visibility of them:
 
 - **The out-lap.** The first lap of a session is conventionally a cold-tyre
   warm-up lap, not a real attempt — comparing corner technique against it
-  is meaningless. This is `OUT_LAPS = (1,)` near the top of `main.py`,
-  `app.py`, and `build_dashboard.py`; change it if a given session's
-  out-lap isn't lap 1 (or there isn't one).
+  is meaningless. This is `OUT_LAPS = (1,)` near the top of `src/main.py`,
+  `dashboard/app.py`, and `dashboard/build_dashboard.py`; change it if a
+  given session's out-lap isn't lap 1 (or there isn't one).
 - **Any lap with a detected spin.** See `src/spins.py`: a spin is flagged
   when yaw rate is high *and* measured grip (combined G) is low for a
   sustained window — the signature of the kart rotating on its own
