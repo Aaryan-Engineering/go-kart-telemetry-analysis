@@ -6,7 +6,7 @@ analysis, and auto-generated improvement recommendations — with three ways
 to view it all: static PNG plots, a Streamlit dashboard, and a single
 self-contained HTML dashboard.
 
-🔗 **[View the live interactive dashboard](https://<your-username>.github.io/<repo-name>/)**
+🔗 **[View the live interactive dashboard](https://aaryan-engineering.github.io/go-kart-telemetry-analysis/)**
 *(Plotly-based, no install needed — includes the full engineering
 conclusions write-up at the bottom of the page)*
 
