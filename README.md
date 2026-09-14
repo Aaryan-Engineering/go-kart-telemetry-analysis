@@ -2,9 +2,13 @@
 
 Turns raw Alfano6 go-kart lap-logger CSVs into cleaned per-lap data, an
 automatically-detected corner map, per-corner metrics, consistency/loss
-analysis, auto-generated improvement recommendations, and three ways to view
-it all: static PNG plots, a Streamlit dashboard, and a single self-contained
-HTML dashboard.
+analysis, and auto-generated improvement recommendations — with three ways
+to view it all: static PNG plots, a Streamlit dashboard, and a single
+self-contained HTML dashboard.
+
+🔗 **[View the live interactive dashboard](https://<your-username>.github.io/<repo-name>/)**
+*(Plotly-based, no install needed — includes the full engineering
+conclusions write-up at the bottom of the page)*
 
 ## Screenshots
 
@@ -40,20 +44,24 @@ HTML dashboard.
 
 ```
 data/
-  raw_sample/     <- sample lap*.csv + summary.csv, included so you can try the pipeline immediately
-  processed/      <- cleaned CSVs, written by the pipeline
-outputs/          <- PNGs, markdown reports, dashboard.html
+  raw_sample/       <- put your lap*.csv + summary.csv here (not committed)
+  processed/        <- cleaned CSVs, written by the pipeline
+outputs/            <- PNGs, markdown reports (incl. 09_engineering_conclusions.md), dashboard.html
 src/
-  loader.py       <- ingest + clean raw CSVs, GPS glitch filtering, reference-line alignment
-  derive.py       <- calibrated G-force / accel-proxy / brake-proxy channels
-  spins.py        <- spin detection (yaw-rate vs measured grip)
-  corners.py      <- automatic corner detection + per-lap corner metrics
-  analysis.py     <- consistency, time-loss, recommendation engine, lap exclusion logic
-  plots.py        <- matplotlib plots (used by main.py and dashboard/app.py)
-  main.py         <- runs the full pipeline, writes everything to outputs/
+  loader.py         <- ingest + clean raw CSVs, GPS glitch filtering, reference-line alignment
+  derive.py         <- calibrated G-force / accel-proxy / brake-proxy channels
+  spins.py          <- spin detection (yaw-rate vs measured grip)
+  corners.py        <- automatic corner detection + per-lap corner metrics
+  analysis.py       <- consistency, time-loss, recommendation engine, lap exclusion logic
+  plots.py          <- matplotlib plots (used by main.py and dashboard/app.py)
+  main.py           <- runs the full pipeline, writes everything to outputs/
 dashboard/
-  app.py               <- Streamlit dashboard (`streamlit run dashboard/app.py`)
-  build_dashboard.py   <- builds a single offline outputs/dashboard.html (Plotly)
+  app.py            <- Streamlit dashboard (`streamlit run dashboard/app.py`)
+  build_dashboard.py<- builds a single offline outputs/dashboard.html (Plotly), embeds the
+                       engineering conclusions automatically
+docs/
+  index.html        <- published copy of outputs/dashboard.html, served by GitHub Pages
+  screenshots/       <- PNGs used in this README
 requirements.txt
 ```
 
@@ -65,27 +73,43 @@ source .venv/bin/activate        # Windows: .venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
-Sample data is already included in `data/raw_sample/`, so you can run the
-pipeline right away. To use your own session, drop your `lap1.csv`,
-`lap2.csv`, ... and `summary.csv` into that same folder (replacing or
-alongside the sample files).
+Drop your session's `lap1.csv`, `lap2.csv`, ... and `summary.csv` into
+`data/raw_sample/`.
 
 ## Run it
 
 ```bash
 # Full pipeline: cleaned data + every static plot + markdown reports
+# (also generates outputs/09_engineering_conclusions.md)
 python src/main.py
 
 # Interactive dashboard (needs streamlit) — run from the project root
 streamlit run dashboard/app.py
 
-# Single offline HTML file, shareable with no install needed to view it
+# Single offline HTML file, shareable with no install needed to view it —
+# automatically pulls in outputs/09_engineering_conclusions.md if it exists
 python dashboard/build_dashboard.py
 ```
 
-All three entry points locate `data/`, `src/`, and `outputs/` relative to
-their own file location, not your current directory, so they work whether
-you run them from the project root or from inside `dashboard/`.
+### Publishing the HTML dashboard (GitHub Pages)
+
+The offline HTML dashboard can be published as a live site instead of just
+sitting in `outputs/`:
+
+```bash
+python src/main.py
+python dashboard/build_dashboard.py
+cp outputs/dashboard.html docs/index.html
+git add docs/index.html
+git commit -m "Update published dashboard"
+git push
+```
+
+`docs/index.html` is a **published copy**, not a source file — always
+regenerate it from `outputs/dashboard.html` via the steps above rather than
+editing it directly, or your changes will be overwritten next time it's
+copied over. GitHub Pages (Settings → Pages → Deploy from branch → `/docs`)
+then serves it automatically at `https://<username>.github.io/<repo>/`.
 
 ## Out-laps and spins are excluded from corner comparisons
 
@@ -114,8 +138,10 @@ you don't lose visibility of them:
 
 Every place this exclusion happens says so — check the generated
 `outputs/09_engineering_conclusions.md` ("Laps excluded from
-corner-comparison analysis" section) or the info banner at the top of the
-Streamlit app for exactly which laps were excluded and why, on a given run.
+corner-comparison analysis" section), the info banner at the top of the
+Streamlit app, or the "Laps Excluded From Corner-Comparison Analysis"
+section of the HTML dashboard for exactly which laps were excluded and
+why, on a given run.
 
 ## Notes
 
