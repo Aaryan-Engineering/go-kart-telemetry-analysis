@@ -6,6 +6,36 @@ analysis, auto-generated improvement recommendations, and three ways to
 view it all: static PNG plots, a Streamlit dashboard, and a single
 self-contained HTML dashboard.
 
+## Screenshots
+
+**Driver summary — best lap, theoretical best, peak G, corner-by-corner loss**
+![Overview and driver summary](docs/screenshots/01_overview_driver_summary.png)
+
+**Track map with automatically detected corners**
+![Track map](docs/screenshots/03_track_map.png)
+![Corner validation](docs/screenshots/04_corner_validation.png)
+
+**Telemetry stack — speed, RPM, accel-proxy, brake-proxy**
+![Telemetry stack](docs/screenshots/05_telemetry_stack.png)
+
+**Lap comparison and delta-time vs. a reference lap**
+![Lap comparison](docs/screenshots/06_lap_comparison.png)
+![Delta time](docs/screenshots/07_delta_time.png)
+
+**Per-corner speed trace**
+![Corner detail](docs/screenshots/08_corner_detail.png)
+
+**G-G diagram — grip envelope usage**
+![G-G diagram](docs/screenshots/09_gg_diagram.png)
+
+**Corner consistency ranking and time-loss table**
+![Consistency ranking](docs/screenshots/10_consistency_ranking.png)
+![Corner time loss table](docs/screenshots/02_corner_time_loss_table.png)
+
+**Auto-generated improvement recommendations**
+![Recommendations part 1](docs/screenshots/11_recommendations_p1.png)
+![Recommendations part 2](docs/screenshots/12_recommendations_p2.png)
+
 ## What's here
 
 ```
