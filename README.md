@@ -6,9 +6,13 @@ analysis, and auto-generated improvement recommendations — with three ways
 to view it all: static PNG plots, a Streamlit dashboard, and a single
 self-contained HTML dashboard.
 
-🔗 **[View the live interactive dashboard](https://aaryan-engineering.github.io/go-kart-telemetry-analysis/)**
-*(Plotly-based, no install needed — includes the full engineering
-conclusions write-up at the bottom of the page)*
+🔗 **[View a sample dashboard](https://aaryan-engineering.github.io/go-kart-telemetry-analysis/)**
+
+*This is the HTML dashboard view — the data, graphs, recommendations and conclusions
+are all generated from a real go-kart telemetry session, not mock data. This link
+shows what gets produced automatically when you run the pipeline on your own session.
+Plotly-based, no install needed — includes the full engineering conclusions write-up
+at the bottom of the page.*
 
 ## Screenshots
 
