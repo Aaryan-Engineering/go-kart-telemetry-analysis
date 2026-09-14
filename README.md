@@ -9,7 +9,7 @@ self-contained HTML dashboard.
 🔗 **[View a sample dashboard](https://aaryan-engineering.github.io/go-kart-telemetry-analysis/)**
 
 *This is the HTML dashboard view. The data, graphs, recommendations and conclusions
-are all generated from a real go-kart telemetry session, not mock data. This link
+are all generated from my go-kart telemetry session. This link
 shows what gets produced automatically when you run the pipeline on your own session.
 Plotly-based, no install needed, includes the full engineering conclusions write-up
 at the bottom of the page.*
